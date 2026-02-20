@@ -1,0 +1,168 @@
+# Home Assistant Scripts — Home Modes
+# File: ha_config/scripts/modes.yaml
+#
+# Each script is a stable "macro" triggered by the LLM intent layer.
+# Adjust entity IDs (light.*, climate.*, media_player.*) to match your setup.
+# Tip: find entity IDs via Settings → Devices & Services → Entities.
+
+nap_mode:
+  alias: "Nap Mode"
+  description: "Dim lights and create a comfortable environment for a short rest."
+  icon: mdi:sleep
+  sequence:
+    - service: light.turn_off
+      target:
+        area_id: bedroom           # adjust to your area/entity
+    - service: light.turn_on
+      target:
+        entity_id: light.living_room_main
+      data:
+        brightness_pct: 20
+        color_temp_kelvin: 2700    # warm white
+    - service: climate.set_temperature
+      target:
+        entity_id: climate.home
+      data:
+        temperature: 22
+        hvac_mode: cool
+    - service: input_text.set_value
+      target:
+        entity_id: input_text.last_selected_mode
+      data:
+        value: "nap_mode"
+  mode: single
+
+sleep_mode:
+  alias: "Sleep Mode"
+  description: "Turn off lights, set night temperature, prepare the home for sleeping."
+  icon: mdi:weather-night
+  sequence:
+    - service: light.turn_off
+      target:
+        area_id: home              # turns off all lights in the home area
+    - service: climate.set_temperature
+      target:
+        entity_id: climate.home
+      data:
+        temperature: 20
+        hvac_mode: cool
+    - service: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.mode_sleep
+    - service: input_text.set_value
+      target:
+        entity_id: input_text.last_selected_mode
+      data:
+        value: "sleep_mode"
+  mode: single
+
+away_mode:
+  alias: "Away Mode"
+  description: "Turn off non-essential lights, set eco temperature, activate away helpers."
+  icon: mdi:home-export-outline
+  sequence:
+    - service: light.turn_off
+      target:
+        area_id: home
+    - service: climate.set_temperature
+      target:
+        entity_id: climate.home
+      data:
+        temperature: 26            # eco setpoint (cooling season); adjust for heating
+        hvac_mode: auto
+    - service: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.mode_away
+    - service: input_text.set_value
+      target:
+        entity_id: input_text.last_selected_mode
+      data:
+        value: "away_mode"
+  mode: single
+
+movie_mode:
+  alias: "Movie Mode"
+  description: "Dim living room lights for a cinema atmosphere."
+  icon: mdi:movie-open
+  sequence:
+    - service: light.turn_off
+      target:
+        entity_id: light.living_room_main
+    - service: light.turn_on
+      target:
+        entity_id: light.living_room_ambient   # e.g. bias lighting behind TV
+      data:
+        brightness_pct: 30
+        rgb_color: [255, 100, 50]  # warm amber
+    - service: input_text.set_value
+      target:
+        entity_id: input_text.last_selected_mode
+      data:
+        value: "movie_mode"
+  mode: single
+
+cozy_mode:
+  alias: "Cozy Mode"
+  description: "Warm, moderate lighting in living areas for a relaxing atmosphere."
+  icon: mdi:candle
+  sequence:
+    - service: light.turn_on
+      target:
+        entity_id:
+          - light.living_room_main
+          - light.living_room_ambient
+      data:
+        brightness_pct: 45
+        color_temp_kelvin: 2700
+    - service: input_text.set_value
+      target:
+        entity_id: input_text.last_selected_mode
+      data:
+        value: "cozy_mode"
+  mode: single
+
+# --- Optional bonus modes ---
+
+all_off:
+  alias: "All Off"
+  description: "Turn off every light in the home."
+  icon: mdi:power-off
+  sequence:
+    - service: light.turn_off
+      target:
+        area_id: home
+    - service: input_text.set_value
+      target:
+        entity_id: input_text.last_selected_mode
+      data:
+        value: "all_off"
+  mode: single
+
+good_morning:
+  alias: "Good Morning"
+  description: "Bright, energising lights and a comfortable daytime temperature."
+  icon: mdi:weather-sunny
+  sequence:
+    - service: light.turn_on
+      target:
+        entity_id: light.living_room_main
+      data:
+        brightness_pct: 100
+        color_temp_kelvin: 4000    # neutral/daylight white
+    - service: climate.set_temperature
+      target:
+        entity_id: climate.home
+      data:
+        temperature: 23
+        hvac_mode: auto
+    - service: input_boolean.turn_off
+      target:
+        entity_id:
+          - input_boolean.mode_sleep
+          - input_boolean.mode_away
+    - service: input_text.set_value
+      target:
+        entity_id: input_text.last_selected_mode
+      data:
+        value: "good_morning"
+  mode: single

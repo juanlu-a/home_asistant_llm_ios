@@ -1,0 +1,20 @@
+# Home Assistant — Automations for observability
+# File: ha_config/automations/voice_logging.yaml
+# Logs every Assist/conversation event to input_text for easy debugging.
+
+- id: "log_voice_command"
+  alias: "Log Voice Command on Conversation End"
+  description: "Captures the last spoken phrase sent to the conversation agent."
+  trigger:
+    - platform: event
+      event_type: conversation_ended   # fired by HA Assist after each exchange
+  action:
+    - service: input_text.set_value
+      target:
+        entity_id: input_text.last_voice_command
+      data:
+        # The event data structure varies slightly by HA version;
+        # use Developer Tools → Events to inspect the actual payload.
+        value: "{{ trigger.event.data.get('text', trigger.event.data.get('user_input', 'unknown')) | truncate(255, True) }}"
+  mode: queued
+  max: 5

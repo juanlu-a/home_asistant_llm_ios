@@ -1,0 +1,55 @@
+# Home Assistant — main configuration
+# Place this file at: ha_config/configuration.yaml
+# (the volume-mounted config directory)
+
+homeassistant:
+  name: Home
+  latitude: !secret home_latitude
+  longitude: !secret home_longitude
+  elevation: !secret home_elevation
+  unit_system: metric
+  currency: EUR
+  time_zone: Europe/Madrid     # adjust to your timezone
+  country: ES                  # adjust to your country
+
+# Enables the HA frontend
+frontend:
+  themes: !include_dir_merge_named themes/
+
+# HTTP — keep local only; add trusted_proxies if behind a reverse proxy
+http:
+  # server_host: 0.0.0.0       # default, listen on all interfaces
+  # ip_ban_enabled: true
+  # login_attempts_threshold: 5
+
+# Logbook — useful for debugging voice commands
+logbook:
+  exclude:
+    domains:
+      - media_player
+      - sun
+
+# History
+history:
+
+# Recorder — stores state history
+recorder:
+  purge_keep_days: 30
+
+# --- Integrations loaded via UI (Settings → Integrations) ---
+# Enable these through the UI, not in YAML:
+#   • OpenAI Conversation   → needs OPENAI_API_KEY in secrets.yaml
+#   • HomeKit (if you want HA accessories exposed to iOS Home)
+#   • Any other devices you add later
+
+# --- Split config files ---
+script:    !include scripts/modes.yaml
+automation: !include automations/voice_logging.yaml
+input_text: !include helpers/input_helpers.yaml
+input_boolean: !include helpers/input_helpers_bool.yaml
+
+# --- Conversation / Assist ---
+# The "conversation" integration is enabled by default in recent HA versions.
+# Configure the OpenAI agent via UI:
+#   Settings → Voice assistants → Add assistant → pick "OpenAI Conversation" as engine
+conversation:

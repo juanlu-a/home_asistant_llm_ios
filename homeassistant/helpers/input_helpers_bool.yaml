@@ -1,0 +1,11 @@
+# Home Assistant — input_boolean helpers (mode state tracking)
+# File: ha_config/helpers/input_helpers_bool.yaml
+# Referenced in configuration.yaml as: input_boolean: !include helpers/input_helpers_bool.yaml
+
+mode_sleep:
+  name: "Sleep Mode Active"
+  icon: mdi:weather-night
+
+mode_away:
+  name: "Away Mode Active"
+  icon: mdi:home-export-outline

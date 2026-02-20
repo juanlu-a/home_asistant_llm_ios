@@ -1,0 +1,14 @@
+# Secrets — never commit these
+secrets.yaml
+.env
+*.env
+
+# Home Assistant generated files
+home-assistant.log
+home-assistant_v2.db
+home-assistant_v2.db-shm
+home-assistant_v2.db-wal
+
+# OS
+.DS_Store
+Thumbs.db

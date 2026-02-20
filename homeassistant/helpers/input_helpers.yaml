@@ -1,0 +1,13 @@
+# Home Assistant — input_text helpers
+# File: ha_config/helpers/input_helpers.yaml
+# Referenced in configuration.yaml as: input_text: !include helpers/input_helpers.yaml
+
+last_voice_command:
+  name: "Last Voice Command"
+  max: 255
+  icon: mdi:microphone-message
+
+last_selected_mode:
+  name: "Last Selected Mode"
+  max: 50
+  icon: mdi:home-automation
