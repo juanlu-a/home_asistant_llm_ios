@@ -1,0 +1,18 @@
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: ghcr.io/home-assistant/home-assistant:stable
+    restart: unless-stopped
+    network_mode: host          # required for mDNS/device discovery on LAN
+    privileged: true            # needed for some integrations (Bluetooth, USB)
+    environment:
+      - TZ=America/Montevideo   # Uruguay timezone
+    volumes:
+      - ./ha_config:/config     # persistent HA config directory
+      - /etc/localtime:/etc/localtime:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8123"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s

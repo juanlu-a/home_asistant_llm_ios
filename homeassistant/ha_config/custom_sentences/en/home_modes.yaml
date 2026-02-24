@@ -1,0 +1,65 @@
+language: "en"
+intents:
+  ActivateNapMode:
+    data:
+      - sentences:
+          - "(activate|run|start|turn on) nap [mode]"
+          - "I (will|want to|am going to) (take|have) a nap"
+          - "nap mode"
+          - "nap time"
+          - "I need (a|to) rest"
+          - "time for a nap"
+  ActivateSleepMode:
+    data:
+      - sentences:
+          - "(activate|run|start|turn on) sleep [mode]"
+          - "I am going to sleep"
+          - "good night"
+          - "bedtime"
+          - "sleep mode"
+          - "time (for|to) sleep"
+          - "going to bed"
+  ActivateAwayMode:
+    data:
+      - sentences:
+          - "(activate|run|start|turn on) away [mode]"
+          - "I am leaving"
+          - "I am going out"
+          - "heading out"
+          - "nobody is home"
+          - "away mode"
+          - "leaving [the] home"
+  ActivateMovieMode:
+    data:
+      - sentences:
+          - "(activate|run|start|turn on) movie [mode]"
+          - "movie time"
+          - "let us watch (a|) movie"
+          - "cinema mode"
+          - "movie mode"
+          - "watch something"
+  ActivateCozyMode:
+    data:
+      - sentences:
+          - "(activate|run|start|turn on) cozy [mode]"
+          - "make it cozy"
+          - "cozy mode"
+          - "set a chill vibe"
+          - "relaxing atmosphere"
+          - "chill mode"
+  ActivateAllOff:
+    data:
+      - sentences:
+          - "(activate|run|start|turn on) all off"
+          - "turn everything off"
+          - "all lights off"
+          - "shut everything off"
+          - "lights off"
+  ActivateGoodMorning:
+    data:
+      - sentences:
+          - "(activate|run|start|turn on) good morning [mode]"
+          - "good morning"
+          - "wake up the house"
+          - "start the day"
+          - "morning mode"

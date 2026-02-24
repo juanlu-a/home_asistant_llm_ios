@@ -1,0 +1,88 @@
+# Home Assistant — main configuration
+# Place this file at: ha_config/configuration.yaml
+# (the volume-mounted config directory)
+
+# Enable default integrations
+default_config:
+
+homeassistant:
+  name: Home
+  latitude: !secret home_latitude
+  longitude: !secret home_longitude
+  elevation: !secret home_elevation
+  unit_system: metric
+  currency: UYU
+  time_zone: America/Montevideo
+  country: UY
+
+# Recorder — customize retention
+recorder:
+  purge_keep_days: 30
+
+# --- Integrations loaded via UI (Settings → Integrations) ---
+# Enable these through the UI, not in YAML:
+#   • OpenAI Conversation   → needs OPENAI_API_KEY in secrets.yaml
+#   • HomeKit (if you want HA accessories exposed to iOS Home)
+#   • Any other devices you add later
+
+# --- Split config files ---
+script:    !include scripts/modes.yaml
+
+# --- Intent scripts for voice commands ---
+intent_script:
+  ActivateNapMode:
+    speech:
+      text: "Okay - nap mode activated."
+    action:
+      - service: script.turn_on
+        target:
+          entity_id: script.nap_mode
+  ActivateSleepMode:
+    speech:
+      text: "Okay - sleep mode activated."
+    action:
+      - service: script.turn_on
+        target:
+          entity_id: script.sleep_mode
+  ActivateAwayMode:
+    speech:
+      text: "Okay - away mode activated."
+    action:
+      - service: script.turn_on
+        target:
+          entity_id: script.away_mode
+  ActivateMovieMode:
+    speech:
+      text: "Okay - movie mode activated."
+    action:
+      - service: script.turn_on
+        target:
+          entity_id: script.movie_mode
+  ActivateCozyMode:
+    speech:
+      text: "Okay - cozy mode activated."
+    action:
+      - service: script.turn_on
+        target:
+          entity_id: script.cozy_mode
+  ActivateAllOff:
+    speech:
+      text: "Okay - all lights off."
+    action:
+      - service: script.turn_on
+        target:
+          entity_id: script.all_off
+  ActivateGoodMorning:
+    speech:
+      text: "Okay - good morning mode activated."
+    action:
+      - service: script.turn_on
+        target:
+          entity_id: script.good_morning
+automation: !include automations/voice_logging.yaml
+input_text: !include helpers/input_helpers.yaml
+input_boolean: !include helpers/input_helpers_bool.yaml
+
+# --- Conversation / Assist ---
+# Conversation is included in default_config
+# Configure voice assistants via UI: Settings → Voice assistants
